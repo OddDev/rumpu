@@ -1,25 +1,45 @@
   document.addEventListener("DOMContentLoaded", function(event) {
 	  
 	  //Classes
-	  var RumpuSound = function (code) {
-		  this.code = code;
-	  };
-	  RumpuSound.prototype.getNode = function(){
-		  var rumbus = document.getElementsByClassName("rumbu");
-		  for (var element in rumbus){
-			  if(element.getAttribute("key") == e.keyCode){
-				  return element;
-			  }
-		  }
-		  throw new NodeException ("Can't find Node with key: " + code);
-	  };
-	  RumpuSound.prototype.createAudioNode = function(){
-		  console.log(this);
-		  var audioNode = document.createElement("audio");
-		  audioNode.setAttribute("autoplay", "true");
-		  audioNode.setAttribute("src", this.code + ".ogg");
+	  var RumpuSound = function (code, looper) {
+	      this.looper = looper;
+	      this.code = code;
 	  };
 	  
+	  var Looper = function(active){
+	      this.active = active;
+	  };
+	  
+	  RumpuSound.prototype.play = function(){
+	  	var audio = new Audio(this.getCode() + ".ogg");
+	  	audio.play();
+	  };
+	  
+	  RumpuSound.prototype.getLooper = function(){
+	      return this.looper;
+	  };
+	  
+	  RumpuSound.prototype.addLooper = function(looper){
+	      this.looper.push(looper);
+	  };
+	  
+	  RumpuSound.prototype.getCode = function(){
+	      return this.code;
+	  };
+	  
+	  RumpuSound.prototype.setCode = function(code){
+	      this.code = code;
+	  };
+	  
+	  Looper.prototype.isActive = function(){
+	      return this.active;
+	  }
+	  
+	  Looper.prototype.setActive = function(active){
+	      this.active = active;
+	  }
+	  
+	  //Classes - Exceptions
 	  var NodeException = function (message) {
 		   this.message = message;
 		   this.name = "NodeException";
@@ -27,8 +47,48 @@
 	  
 	  
 	  //Globals
-	  window.addEventListener( "keydown", doKeyDown, false );
-
+	  //Globals Variables
+	  var rumpus = [];
+	  
+	  //Globals Eventlisteners
+	  window.addEventListener( "keydown", onKeyDown, false );
+	  var clickNodes = document.getElementsByClassName("rumpu");
+	  for(var l = 0; l < clickNodes.length; l ++ ){
+	      clickNodes[l].addEventListener("click", onClick, false ); 
+	  }
+	  
+	  //Globals Functions
+	  function onKeyDown(event){
+	      playThis(event.keyCode);
+	  };
+	  
+	  function onClick(event){
+	      playThis(event.target.getAttribute("key"));
+	  };
+	  
+	  function playThis(code){
+	      for(var k = 0; k<rumpus.length; k++){
+	          (rumpus[k].getCode() == code) ? rumpus[k].play() : null;
+	      }
+	  };
+	  
+	  //Initialize
+	  var rumpuNodes = document.getElementsByClassName("rumpu");
+	  for(var i = 0; i<rumpuNodes.length; i++){
+	      var looperNodes = rumpuNodes[i].getElementsByClassName("looper");
+	      var looper = [];
+	      for(var j = 0; j<looperNodes.length; j++){
+	          looper.push(new Looper((looperNodes[j].getAttribute("id") === "active") ? true : false));
+	      }
+	      rumpus.push(new RumpuSound(rumpuNodes[i].getAttribute("key"), looper));
+	  }
+	  
+	  
+	  
+	  
+	  
+	  
+	  
 	  function doKeyDown(e){
 		  var sound1 = new RumpuSound(e.keyCode);
 		  sound1.createAudioNode();
