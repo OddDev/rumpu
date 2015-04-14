@@ -1,0 +1,53 @@
+.keyboard{
+    width: 480px;
+    margin-left: auto;
+    margin-right: auto;
+    height: 336px;
+    margin-top: 90px;
+}
+
+.rumpu{
+    line-height: 144px;
+    font-size: 144px;
+    font-family: arial;
+    text-align: center;
+    margin: 4px;
+    float: left;
+    width: 144px;
+    height: 144px;
+    border: solid 4px black;
+    -webkit-border-radius: 15px;
+    -moz-border-radius: 15px;
+    border-radius: 15px;
+    cursor: pointer;
+}
+
+.looper{
+    border: black solid 1px;
+    height: 15px;
+    width: 15px;
+    margin: 5px;
+    -webkit-border-radius: 50%;
+    -moz-border-radius: 50%;
+    border-radius: 50%;
+}
+
+#active{
+    background-color: black;
+}
+
+.loopers{
+    float: left;
+}
+
+.soundboard{
+    margin-top: 100px;
+    width: 500px;
+    height: 500px;
+    margin-left: auto;
+    margin-right: auto;
+    border: solid 2px black;
+    -webkit-border-radius: 50px;
+    -moz-border-radius: 50px;
+    border-radius: 50px;
+}
